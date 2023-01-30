@@ -9,9 +9,9 @@ if ((Configured $forWork) -or (Configured $forTest)) {
 
     Block "Install Tor Browser" {
         winget install --id TorProject.TorBrowser
-        Move-Item "$env:UserProfile\Desktop\Tor Browser" C:\BenLocal\Programs
+        Move-Item "$env:UserProfile\Desktop\Tor Browser" C:\QLocal\Programs
     } {
-        Test-Path "C:\BenLocal\Programs\Tor Browser"
+        Test-Path "C:\QLocal\Programs\Tor Browser"
     }
 
     InstallFromWingetBlock 9WZDNCRFJBLK # Arc Touch Bluetooth Mouse

@@ -1,4 +1,4 @@
-if (Test-Path C:\Ben) {
+if (Test-Path C:\Q) {
     throw "About to overwrite master copies"
 }
 
@@ -6,7 +6,7 @@ if (Test-Path C:\Ben) {
 
 function RestoreBackup([string]$From, [string]$To, [string]$LogFilePart) {
     $LogFilePart ??= (Split-Path $From -Leaf)
-    $logFile = "C:\BenLocal\backup\restore-$LogFilePart.log"
+    $logFile = "C:\QLocal\backup\restore-$LogFilePart.log"
     Write-Output "Restoring $From to $To"
     Write-Output "Writing log file to $logFile"
     # /Z           = copy files in restartable mode
@@ -46,10 +46,10 @@ RestoreBackup "E:\Backup - Monthly\AppData\Local\Plex Media Server" "$env:LOCALA
 reg import "E:\Backup - Monthly\reg-Plex Media Server.reg"
 reg import "E:\Backup - Monthly\reg-PlexPlaylistLiberator.reg"
 
-RestoreDailyBackup "E:\Backup - Daily\OneDrive_Ben" "$env:UserProfile\OneDrive\Ben"
+RestoreDailyBackup "E:\Backup - Daily\OneDrive_Q" "$env:UserProfile\OneDrive\Q"
 RestoreDailyBackup "E:\Backup - Daily\OneDrive_Music" "$env:UserProfile\OneDrive\Music"
-RestoreMonthlyBackup "E:\Backup - Monthly\OneDrive_BenEx" "$env:UserProfile\OneDrive\BenEx"
-RestoreBackup "E:\Backup - Monthly\OneDrive_BenEx2" "$env:UserProfile\OneDrive\BenEx2"
-RestoreDailyBackup "E:\Backup - Daily\Ben" "C:\Ben"
-RestoreBackup "E:\Backup - Monthly\BenEx" "C:\BenEx"
-RestoreBackup "E:\Backup - Monthly\BenEx2" "C:\BenEx2"
+RestoreMonthlyBackup "E:\Backup - Monthly\OneDrive_QEx" "$env:UserProfile\OneDrive\QEx"
+RestoreBackup "E:\Backup - Monthly\OneDrive_QEx2" "$env:UserProfile\OneDrive\QEx2"
+RestoreDailyBackup "E:\Backup - Daily\Q" "C:\Q"
+RestoreBackup "E:\Backup - Monthly\QEx" "C:\QEx"
+RestoreBackup "E:\Backup - Monthly\QEx2" "C:\QEx2"

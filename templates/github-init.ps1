@@ -1,6 +1,6 @@
 $owner = Read-Host Owner
 $repo = $pwd | Split-Path -Leaf
-$workRepo = $owner -ne "benallred"
+$workRepo = $owner -ne "qmarsala"
 gh repo create "$owner/$repo" ($workRepo ? "--private" : "--public") --source . --description (Read-Host Description)
 
 gh repo edit --enable-merge-commit=false

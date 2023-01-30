@@ -3,7 +3,7 @@ param([switch]$DryRun, [switch]$SkipBackup, [string]$Run)
 $totalDuration = [Diagnostics.Stopwatch]::StartNew()
 
 . $PSScriptRoot\config-functions.ps1
-mkdir C:\BenLocal\backup -ErrorAction Ignore
+mkdir C:\QLocal\backup -ErrorAction Ignore
 
 Block "Configure for" {
     $configureForOptions = {
@@ -55,7 +55,7 @@ if (Configured $forHome) {
     Block "Restore file backups" {
         wt -w 0 nt pwsh -NoExit -File $PSScriptRoot\restore-file-backups.ps1
     } {
-        Test-Path C:\Ben
+        Test-Path C:\Q
     }
 }
 
@@ -69,9 +69,9 @@ if (!$DryRun -and !$Run) {
 }
 
 Block "Git config" {
-    git config --global --add include.path $PSScriptRoot\git\ben.gitconfig
+    git config --global --add include.path $PSScriptRoot\git\q.gitconfig
 } {
-    (git config --get-all --global include.path) -match "ben\.gitconfig"
+    (git config --get-all --global include.path) -match "q\.gitconfig"
 }
 
 & $PSScriptRoot\windows\config.ps1

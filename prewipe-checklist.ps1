@@ -10,7 +10,7 @@ $checklist = @(
         action      = {
             try {
                 . $PSScriptRoot\scheduled-tasks\home\daily.ps1 | Write-Host
-                Remove-Item C:\BenLocal\.ps.lastRunTime.monthly.txt
+                Remove-Item C:\QLocal\.ps.lastRunTime.monthly.txt
                 . $PSScriptRoot\scheduled-tasks\home\monthly.ps1 | Write-Host
                 return $true
             }
@@ -25,7 +25,7 @@ $checklist = @(
     @{ description = "Make sure VS Code settings are synced"; manual = $true }
     @{ description = "Make sure OneDrive is synced"; manual = $true }
     @{ description = "Make sure OneNote is synced"; manual = $true }
-    @{ description = "Quick review of C:\BenLocal"; manual = $true }
+    @{ description = "Quick review of C:\QLocal"; manual = $true }
 ) | ? { $null -ne $_ }
 
 function WriteChecklist() {

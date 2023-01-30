@@ -50,19 +50,19 @@ function BackupOneDrive() {
     $logFile = "$to.log"
     Write-Output "Backing up $from to $to"
     Write-Output "Writing log file to $logFile"
-    StopOnError 4 { robocopy $from $to /XD $env:UserProfile\OneDrive\Ben $env:UserProfile\OneDrive\BenEx $env:UserProfile\OneDrive\Music /XF (Get-ChildItem $env:UserProfile\OneDrive\ -Hidden) /Z /DCOPY:T /MIR /X /NDL /NP /UNILOG:"$logFile" /TEE }
+    StopOnError 4 { robocopy $from $to /XD $env:UserProfile\OneDrive\Q $env:UserProfile\OneDrive\QEx $env:UserProfile\OneDrive\Music /XF (Get-ChildItem $env:UserProfile\OneDrive\ -Hidden) /Z /DCOPY:T /MIR /X /NDL /NP /UNILOG:"$logFile" /TEE }
     start $logFile
 }
 
-BackupByMonth "C:\Ben" "E:\Backup - Monthly\Ben"
-Backup "C:\BenEx" "E:\Backup - Monthly\BenEx"
-Backup "C:\BenEx2" "E:\Backup - Monthly\BenEx2"
-BackupByMonth "$env:UserProfile\OneDrive\Ben" "E:\Backup - Monthly\OneDrive_Ben"
+BackupByMonth "C:\Q" "E:\Backup - Monthly\Q"
+Backup "C:\QEx" "E:\Backup - Monthly\QEx"
+Backup "C:\QEx2" "E:\Backup - Monthly\QEx2"
+BackupByMonth "$env:UserProfile\OneDrive\Q" "E:\Backup - Monthly\OneDrive_Q"
 BackupByMonth "$env:UserProfile\OneDrive\Music" "E:\Backup - Monthly\OneDrive_Music"
-BackupByMonth "$env:UserProfile\OneDrive\BenEx" "E:\Backup - Monthly\OneDrive_BenEx"
+BackupByMonth "$env:UserProfile\OneDrive\QEx" "E:\Backup - Monthly\OneDrive_QEx"
 BackupOneDrive
 
-Backup E:\Media\Ben J:\MediaBackup\Media\Ben -IsMediaBackup
+Backup E:\Media\Q J:\MediaBackup\Media\Q -IsMediaBackup
 Backup "E:\Media (Korean)" "J:\MediaBackup\Media (Korean)" -IsMediaBackup
 Backup E:\Media\Tools J:\MediaBackup\Media\Tools
 

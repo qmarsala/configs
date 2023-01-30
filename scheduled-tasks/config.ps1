@@ -5,9 +5,9 @@ function ScheduledTaskBlock([Parameter(Mandatory)][string]$Comment, [Parameter(M
         $trigger = New-ScheduledTaskTrigger -Daily -At $at
         $settingsSet = New-ScheduledTaskSettingsSet -StartWhenAvailable
         $task = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settingsSet
-        Register-ScheduledTask -TaskName $TaskName -TaskPath "Ben" -InputObject $task
+        Register-ScheduledTask -TaskName $TaskName -TaskPath "Q" -InputObject $task
     } {
-        Get-ScheduledTask -TaskName $TaskName -TaskPath "\Ben\" -ErrorAction Ignore
+        Get-ScheduledTask -TaskName $TaskName -TaskPath "\Q\" -ErrorAction Ignore
     }
 }
 

@@ -7,7 +7,7 @@ param (
 
 $vmName = "configs Test VM"
 $resetCheckpoint = "Post-install"
-$vhdx = "C:\BenLocal\vhd\configs.vhdx"
+$vhdx = "C:\QLocal\vhd\configs.vhdx"
 
 $vm = Get-VM $vmName -ErrorAction Ignore
 

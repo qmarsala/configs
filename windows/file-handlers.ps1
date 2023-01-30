@@ -3,7 +3,7 @@ Block "Associate extensionless files with VS Code" {
 }
 
 Block "Create generic file handler" {
-    Set-RegistryValue "HKLM:\SOFTWARE\Classes\Ben.VSCode\shell\open\command" -Value """$env:LocalAppData\Programs\Microsoft VS Code\Code.exe"" ""%1"""
+    Set-RegistryValue "HKLM:\SOFTWARE\Classes\Q.VSCode\shell\open\command" -Value """$env:LocalAppData\Programs\Microsoft VS Code\Code.exe"" ""%1"""
 }
 
 function CreateFileHandlerBlock([string]$Handler, [string]$DisplayName, [string]$DefaultIcon, [string]$OpenCommand) {

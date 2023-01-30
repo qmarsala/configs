@@ -6,8 +6,8 @@ function qmk-ps([Parameter(ValueFromRemainingArguments = $true)]$Rest) {
 }
 
 function flash() {
-    qmk-ps compile -kb moonlander -km ben
-    qmk-ps flash -kb moonlander -km ben
+    qmk-ps compile -kb moonlander -km q
+    qmk-ps flash -kb moonlander -km q
 }
 
 ##################################################
@@ -92,7 +92,7 @@ function Update-AwsAccessKey() {
 # VeraCrypt
 
 function New-VeraCryptContainer([Parameter(Mandatory)][string]$FilePath, [Parameter(Mandatory)][string]$Size) {
-    $veraCryptFormatPath = "$OneDrive\Ben\Programs\VeraCrypt\Current\VeraCrypt Format-x64.exe"
+    $veraCryptFormatPath = "$OneDrive\Q\Programs\VeraCrypt\Current\VeraCrypt Format-x64.exe"
     $filename = Split-Path $FilePath -Leaf
     . $veraCryptFormatPath /create $FilePath /password (SecureRead-Host "$filename Password") /pim (SecureRead-Host "$filename PIM") /encryption AES /hash sha512 /size $Size
 }

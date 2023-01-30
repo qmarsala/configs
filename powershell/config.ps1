@@ -22,7 +22,7 @@ if (!(Configured $forKids)) {
 }
 
 Block "PowerShell Transcripts" {
-    mkdir "C:\BenLocal\PowerShell Transcripts" -ErrorAction Ignore
+    mkdir "C:\QLocal\PowerShell Transcripts" -ErrorAction Ignore
 }
 
 Block "Configure profile.ps1" {

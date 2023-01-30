@@ -1,21 +1,21 @@
 # profile timing start
-$psLoadDurations += @{ name = 'Ben'; path = $PSCommandPath; stopwatch = [Diagnostics.Stopwatch]::StartNew() }
+$psLoadDurations += @{ name = 'Q'; path = $PSCommandPath; stopwatch = [Diagnostics.Stopwatch]::StartNew() }
 # profile timing end
 
-$benProfileDurations = @()
-$benProfileStopwatch = [Diagnostics.Stopwatch]::StartNew()
-function TimeBenProfile([string]$Description) {
-    $script:benProfileDurations += @{
-        desc         = "Ben:$Description"
-        totalTilNow  = $benProfileStopwatch.ElapsedMilliseconds
-        milliseconds = $benProfileStopwatch.ElapsedMilliseconds - ($benProfileDurations.Length ? $benProfileDurations[-1].totalTilNow : 0)
+$qProfileDurations = @()
+$qProfileStopwatch = [Diagnostics.Stopwatch]::StartNew()
+function TimeQProfile([string]$Description) {
+    $script:qProfileDurations += @{
+        desc         = "Q:$Description"
+        totalTilNow  = $qProfileStopwatch.ElapsedMilliseconds
+        milliseconds = $qProfileStopwatch.ElapsedMilliseconds - ($qProfileDurations.Length ? $qProfileDurations[-1].totalTilNow : 0)
     }
 }
 
 $OneDrive = "$env:UserProfile\OneDrive"
-$git = "C:\BenLocal\git"
+$git = "C:\QLocal\git"
 
-$tmp = "C:\BenLocal\ToDelete\$(Get-Date -Format "yyyyMM")"
+$tmp = "C:\QLocal\ToDelete\$(Get-Date -Format "yyyyMM")"
 
 function Update-WindowsTerminalSettings() {
     Import-Module Appx -UseWindowsPowerShell
@@ -268,31 +268,31 @@ Register-ArgumentCompleter -Native -CommandName .\config.ps1 -ScriptBlock {
     }
 }
 
-TimeBenProfile "Functions"
+TimeQProfile "Functions"
 
 . $PSScriptRoot\one-liners.ps1
-TimeBenProfile "One-Liners"
+TimeQProfile "One-Liners"
 . $PSScriptRoot\PSReadLine.ps1
-TimeBenProfile "PSReadLine"
+TimeQProfile "PSReadLine"
 
 $env:POSH_GIT_ENABLED = $true
-oh-my-posh init pwsh --config $PSScriptRoot\ben.omp.json | Invoke-Expression
+oh-my-posh init pwsh --config $PSScriptRoot\q.omp.json | Invoke-Expression
 Enable-PoshLineError
-TimeBenProfile "OMP"
+TimeQProfile "OMP"
 
-$transcriptDir = "C:\BenLocal\PowerShell Transcripts"
+$transcriptDir = "C:\QLocal\PowerShell Transcripts"
 $Transcript = "$transcriptDir\$(Get-TimestampForFileName).log"
 Start-Transcript $Transcript -NoClobber -IncludeInvocationHeader
-TimeBenProfile "Transcript"
+TimeQProfile "Transcript"
 
-($benProfileDurations `
+($qProfileDurations `
 | select desc, milliseconds `
 | Format-Table desc, @{ Label = "elapsed"; Expression = { "$([int]$_.milliseconds)ms" }; Alignment = "Right" } -HideTableHeaders `
 | Out-String
 ).Trim()
 
 # profile timing start
-$currentDuration = ($psLoadDurations | ? { $_.name -eq 'Ben' })
+$currentDuration = ($psLoadDurations | ? { $_.name -eq 'Q' })
 $currentDuration.stopwatch.Stop()
 $currentDuration.elapsed = $currentDuration.stopwatch.Elapsed
 # profile timing end

@@ -1,7 +1,7 @@
 $hkcr = [Microsoft.Win32.RegistryKey]::OpenBaseKey("ClassesRoot", "Default")
 
 # Create handler
-$handlerKey = $hkcr.CreateSubKey("Ben.Extensionless")
+$handlerKey = $hkcr.CreateSubKey("Q.Extensionless")
 $handlerKey.SetValue("", "Extensionless")
 $defaultIconKey = $handlerKey.CreateSubKey("DefaultIcon")
 $defaultIconKey.SetValue("", "%SystemRoot%\system32\shell32.dll,271")
@@ -10,4 +10,4 @@ $commandKey.SetValue("", """$env:LocalAppData\Programs\Microsoft VS Code\Code.ex
 
 # Associate extensionless files with handler
 $extensionlessKey = $hkcr.CreateSubKey(".")
-$extensionlessKey.SetValue("", "Ben.Extensionless")
+$extensionlessKey.SetValue("", "Q.Extensionless")

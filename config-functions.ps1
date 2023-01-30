@@ -49,10 +49,10 @@ function FirstRunBlock([string]$Comment, [scriptblock]$ScriptBlock, [switch]$Req
     Block $Comment {
         Invoke-Command $ScriptBlock -ErrorVariable scriptBlockError
         if (!$scriptBlockError) {
-            Add-Content C:\BenLocal\backup\config.done.txt $Comment
+            Add-Content C:\QLocal\backup\config.done.txt $Comment
         }
     }.GetNewClosure() {
-        (Get-Content C:\BenLocal\backup\config.done.txt -ErrorAction Ignore) -contains $Comment
+        (Get-Content C:\QLocal\backup\config.done.txt -ErrorAction Ignore) -contains $Comment
     } -RequiresReboot:$RequiresReboot
 }
 
@@ -65,12 +65,12 @@ function ConfigFollowup([string]$FileName, [scriptblock]$Followup) {
         Read-Host
     }.ToString().Replace('$FileName', $FileName).Replace('$Followup', $Followup)
     New-FileRunOnce $FileName "$env:tmp\$FileName.ps1"
-    Add-Content C:\BenLocal\backup\runonce.txt ". $env:tmp\$FileName.ps1"
+    Add-Content C:\QLocal\backup\runonce.txt ". $env:tmp\$FileName.ps1"
 }
 
 function DeleteDesktopShortcut([string]$ShortcutName) {
-    if ((Get-Content C:\BenLocal\.delete-desktop-shortcuts.txt -ErrorAction Ignore) -notcontains $ShortcutName) {
-        Add-Content C:\BenLocal\.delete-desktop-shortcuts.txt $ShortcutName
+    if ((Get-Content C:\QLocal\.delete-desktop-shortcuts.txt -ErrorAction Ignore) -notcontains $ShortcutName) {
+        Add-Content C:\QLocal\.delete-desktop-shortcuts.txt $ShortcutName
     }
 }
 
@@ -111,7 +111,7 @@ function InstallFromGitHubBlock([string]$User, [string]$Repo, [scriptblock]$Afte
         }
         if ($AfterClone) {
             pushd $git\$Repo
-            if ($User -eq "benallred") {
+            if ($User -eq "qmarsala") {
                 git set-email
             }
             Invoke-Command $AfterClone

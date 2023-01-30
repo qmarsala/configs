@@ -1,7 +1,7 @@
-[ben]
+[q]
 	difftool = VSCode
 [user]
-	name = Ben Allred
+	name = Quinten Marsala
 [core]
 	editor = code --wait --new-window
 [advice]
@@ -29,7 +29,7 @@
 	cmd = code --wait --merge $LOCAL $REMOTE $BASE $MERGED
 [alias]
 	set-email = !git config --local user.email $(git log -1 --author \"$(git config user.name)\" --format=%ae)
-	config-path = config --global --get include.path ben.gitconfig
+	config-path = config --global --get include.path q.gitconfig
 	config-edit = "!git config --edit --file $(git config-path)"
 	log-graph-base = log --graph --decorate -30 --topo-order --date=format-local:'%Y-%m-%d %H:%M:%S' --pretty=format:'%C(cyan)%h%Creset %C(black bold)%ad%Creset %C(green)%<(15,trunc)%an%Creset%C(auto)%d %s'
 	lg = log-graph-base --all # log-graph
@@ -39,12 +39,12 @@
 	last-message = log -1 --pretty=format:%B
 	commitwip = !git add -A && git commit -m WIP
 	continuewip = "!if [ \"$(git log -1 --pretty=format:%B)\" == \"WIP\" ]; then git reset HEAD~1; elif [ \"$1\" != \"-q\" ]; then echo 'The last commit was not \"WIP\"'; fi #"
-	d = "!git difftool -t $(git config ben.difftool)"
-	da = "!f() { for filename in $(git diff --name-only $*); do git difftool -t $(git config ben.difftool) $* $filename & done }; f"
+	d = "!git difftool -t $(git config q.difftool)"
+	da = "!f() { for filename in $(git diff --name-only $*); do git difftool -t $(git config q.difftool) $* $filename & done }; f"
 	dd = difftool --dir-diff
-	m = "!git mergetool -t $(git config ben.difftool)"
-	st = "!git difftool -t $(git config ben.difftool) HEAD~ HEAD"
-	sa = "!f() { for filename in $(git diff --name-only HEAD~ HEAD); do git difftool -t $(git config ben.difftool) HEAD~ HEAD $filename & done }; f"
+	m = "!git mergetool -t $(git config q.difftool)"
+	st = "!git difftool -t $(git config q.difftool) HEAD~ HEAD"
+	sa = "!f() { for filename in $(git diff --name-only HEAD~ HEAD); do git difftool -t $(git config q.difftool) HEAD~ HEAD $filename & done }; f"
 	sd = difftool --dir-diff HEAD~ HEAD
 	s = status
 	ss = show --name-status --abbrev-commit
