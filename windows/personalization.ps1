@@ -2,16 +2,14 @@ Block "Personalization > Colors > Choose your mode = Dark" {
     Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name AppsUseLightTheme -Value 0
     Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name SystemUsesLightTheme -Value 0
 }
-if (!(Configured $forKids)) {
-    Block "Personalization > Colors > Accent color = Seafoam teal" {
-        Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name AccentColor -Value 4287070979
-        Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name ColorizationAfterglow -Value 3288564615
-        Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name ColorizationColor -Value 3288564615
-        Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name ColorizationGlassAttribute -Value 1
-        Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name AccentColorMenu -Value 4287070979
-        Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name AccentPalette -Value ([byte[]]@(124, 251, 252, 0, 33, 246, 250, 0, 4, 173, 178, 0, 3, 131, 135, 0, 3, 114, 118, 0, 2, 75, 78, 0, 1, 40, 42, 0, 239, 105, 80, 0))
-        Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name StartColorMenu -Value 4285952515
-    }
+Block "Personalization > Colors > Accent color = Seafoam teal" {
+    Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name AccentColor -Value 4287070979
+    Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name ColorizationAfterglow -Value 3288564615
+    Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name ColorizationColor -Value 3288564615
+    Set-RegistryValue "HKCU:\Software\Microsoft\Windows\DWM" -Name ColorizationGlassAttribute -Value 1
+    Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name AccentColorMenu -Value 4287070979
+    Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name AccentPalette -Value ([byte[]]@(124, 251, 252, 0, 33, 246, 250, 0, 4, 173, 178, 0, 3, 131, 135, 0, 3, 114, 118, 0, 2, 75, 78, 0, 1, 40, 42, 0, 239, 105, 80, 0))
+    Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent" -Name StartColorMenu -Value 4285952515
 }
 Block "Personalization > Lock screen > Personalize your lock screen > Get fun facts, tips, tricks, and more on your lock screen = Off" {
     Set-RegistryValue "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name RotatingLockScreenOverlayEnabled -Value 0
