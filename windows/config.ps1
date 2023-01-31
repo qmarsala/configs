@@ -28,7 +28,7 @@ Block "Control Panel > View by = Small icons" {
 & $PSScriptRoot\explorer.ps1
 & $PSScriptRoot\file-handlers.ps1
 & $PSScriptRoot\system.ps1
-& $PSScriptRoot\devices.ps1
+# & $PSScriptRoot\devices.ps1
 & $PSScriptRoot\personalization.ps1
 & $PSScriptRoot\apps.ps1
 & $PSScriptRoot\accounts.ps1
@@ -37,6 +37,7 @@ Block "Control Panel > View by = Small icons" {
 & $PSScriptRoot\privacy-and-security.ps1
 & $PSScriptRoot\windows-update.ps1
 & $PSScriptRoot\windows-features.ps1
+
 FirstRunBlock "Set sign-in options" {
     Write-ManualStep "Windows Hello"
     start ms-settings:signinoptions
