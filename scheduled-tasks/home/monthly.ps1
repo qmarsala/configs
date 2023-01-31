@@ -53,23 +53,3 @@ function BackupOneDrive() {
     StopOnError 4 { robocopy $from $to /XD $env:UserProfile\OneDrive\Q $env:UserProfile\OneDrive\QEx $env:UserProfile\OneDrive\Music /XF (Get-ChildItem $env:UserProfile\OneDrive\ -Hidden) /Z /DCOPY:T /MIR /X /NDL /NP /UNILOG:"$logFile" /TEE }
     start $logFile
 }
-
-BackupByMonth "C:\Q" "E:\Backup - Monthly\Q"
-Backup "C:\QEx" "E:\Backup - Monthly\QEx"
-Backup "C:\QEx2" "E:\Backup - Monthly\QEx2"
-BackupByMonth "$env:UserProfile\OneDrive\Q" "E:\Backup - Monthly\OneDrive_Q"
-BackupByMonth "$env:UserProfile\OneDrive\Music" "E:\Backup - Monthly\OneDrive_Music"
-BackupByMonth "$env:UserProfile\OneDrive\QEx" "E:\Backup - Monthly\OneDrive_QEx"
-BackupOneDrive
-
-Backup E:\Media\Q J:\MediaBackup\Media\Q -IsMediaBackup
-Backup "E:\Media (Korean)" "J:\MediaBackup\Media (Korean)" -IsMediaBackup
-Backup E:\Media\Tools J:\MediaBackup\Media\Tools
-
-Backup "$env:LOCALAPPDATA\Plex Media Server" "E:\Backup - Monthly\AppData\Local\Plex Media Server"
-StopOnError { reg export "HKCU\SOFTWARE\Plex, Inc.\Plex Media Server" "E:\Backup - Monthly\reg-Plex Media Server.reg" /y }
-StopOnError { reg export "HKCU\SOFTWARE\PlexPlaylistLiberator" "E:\Backup - Monthly\reg-PlexPlaylistLiberator.reg" /y }
-
-Update-Help -ErrorAction Ignore
-
-RecordRunTime $runTimeId

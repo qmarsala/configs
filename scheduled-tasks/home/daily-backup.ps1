@@ -15,9 +15,3 @@ function BackupByDay([string]$From, [string]$ToBase) {
     # /TEE         = output to console window, as well as the log file
     StopOnError 4 { robocopy $From $to /Z /DCOPY:T /MIR /X /NDL /NP /UNILOG:"$logFile" /TEE }
 }
-
-BackupByDay "C:\Q" "E:\Backup - Daily\Q"
-BackupByDay "$env:UserProfile\OneDrive\Q" "E:\Backup - Daily\OneDrive_Q"
-BackupByDay "$env:UserProfile\OneDrive\Music" "E:\Backup - Daily\OneDrive_Music"
-
-StopOnError 4 { robocopy "$env:UserProfile\Documents\Heroes of the Storm\Accounts" "E:\Backup - Daily\UserProfile\Documents\Heroes of the Storm\Accounts" /XD *-Hero-* /Z /DCOPY:T /MIR /X /NDL /NP }
