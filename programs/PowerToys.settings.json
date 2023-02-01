@@ -4,7 +4,7 @@
     "AlwaysOnTop": false,
     "Awake": false,
     "ColorPicker": false,
-    "FancyZones": false,
+    "FancyZones": true,
     "File Explorer": true,
     "File Locksmith": false,
     "FindMyMouse": false,
