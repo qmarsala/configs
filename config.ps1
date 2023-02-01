@@ -23,7 +23,7 @@ Block "Configure for" {
     Add-Content -Path $profile $configureForOptions
     Add-Content -Path $profile -Value "`$configureFor = `"$configureFor`""
     Add-Content -Path $profile {
-        function Configured([Parameter(Mandatory = $true)][ValidateSet("home", "work", "kids", "test")][string]$for) {
+        function Configured([Parameter(Mandatory = $true)][ValidateSet("home", "work", "test")][string]$for) {
             if (!$configureFor) {
                 throw '$configureFor not set'
             }
@@ -75,6 +75,9 @@ Block "Git config" {
 
 & $PSScriptRoot\windows\config.ps1
 & $PSScriptRoot\install\install.ps1
+if (Configured $forHome) {
+    & $PSScriptRoot\install\games.ps1
+}
 & $PSScriptRoot\work\config.ps1
 & $PSScriptRoot\scheduled-tasks\config.ps1
 

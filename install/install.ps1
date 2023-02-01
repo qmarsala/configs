@@ -300,7 +300,3 @@ InstallFromWingetBlock Microsoft.PowerToys {
     Copy-Item2 $PSScriptRoot\..\programs\PowerToys.settings.json $env:LocalAppData\Microsoft\PowerToys\settings.json
     Copy-Item2 $PSScriptRoot\..\programs\PowerToys.VideoConference.settings.json "$env:LocalAppData\Microsoft\PowerToys\Video Conference\settings.json"
 }
-
-if (Configured $forHome) {
-    & $PSScriptRoot\games.ps1
-}
