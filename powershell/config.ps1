@@ -17,9 +17,7 @@ InstallPowerShellModuleBlock posh-git {
 
 InstallFromWingetBlock JanDeDobbeleer.OhMyPosh
 
-if (!(Configured $forKids)) {
-    InstallPowerShellModuleBlock BurntToast
-}
+InstallPowerShellModuleBlock BurntToast
 
 Block "PowerShell Transcripts" {
     mkdir "C:\QLocal\PowerShell Transcripts" -ErrorAction Ignore

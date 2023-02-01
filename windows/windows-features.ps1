@@ -9,12 +9,10 @@ function WindowsFeatureBlock([string]$Comment, [string]$FeatureName) {
 
 WindowsFeatureBlock ".NET Framework 3.5 (includes .NET 2.0 and 3.0)" NetFx3
 
-if (!(Configured $forKids)) {
-    WindowsFeatureBlock "Hyper-V" Microsoft-Hyper-V
+WindowsFeatureBlock "Hyper-V" Microsoft-Hyper-V
 
     Block "Install WSL" {
         wsl --install -d Ubuntu
     } {
         (wsl -l) -replace "`0", "" | Select-String "Windows Subsystem for Linux Distributions:"
     } -RequiresReboot
-}

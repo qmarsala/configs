@@ -9,12 +9,11 @@ Block "Configure for" {
     $configureForOptions = {
         $forHome = "home"
         $forWork = "work"
-        $forKids = "kids"
         $forTest = "test"
     }
     . $configureForOptions
 
-    while (($configureFor = (Read-Host "Configure for ($forHome,$forWork,$forKids,$forTest)")) -notin @($forHome, $forWork, $forKids, $forTest)) { }
+    while (($configureFor = (Read-Host "Configure for ($forHome,$forWork,$forTest)")) -notin @($forHome, $forWork, $forTest)) { }
 
     if (!(Test-Path $profile)) {
         New-Item $profile -Force
@@ -76,16 +75,8 @@ Block "Git config" {
 
 & $PSScriptRoot\windows\config.ps1
 & $PSScriptRoot\install\install.ps1
-if (!(Configured $forKids)) {
-    & $PSScriptRoot\work\config.ps1
-}
+& $PSScriptRoot\work\config.ps1
 & $PSScriptRoot\scheduled-tasks\config.ps1
-
-# if (!(Configured $forKids)) {
-#     FirstRunBlock "Defer config for Start Menu, Taskbar, and System Tray" {
-#         New-FileRunOnce "Config for Start Menu, Taskbar, and System Tray" "$PSScriptRoot\windows\start-task-tray\start-task-tray.ps1"
-#     } -RequiresReboot
-# }
 
 Block "Blocks of interest this run" {
     $global:blocksOfInterest | % { Write-Output "`t$_" }
