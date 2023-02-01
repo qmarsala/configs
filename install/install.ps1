@@ -17,37 +17,30 @@ Block "Configure scoop nonportable bucket" {
     scoop bucket list | Select-String nonportable
 }
 
-if (!(Configured $forKids)) {
-    InstallFromWingetBlock Microsoft.Edge.Dev {
-        DeleteDesktopShortcut "Microsoft Edge Dev"
-        Write-ManualStep "Navigate to"
-        Write-ManualStep "edge://settings/appearance"
-        Write-ManualStep "`tCustomize toolbar > Hide title bar while in vertical tabs = On"
-        Write-ManualStep "Navigate to"
-        Write-ManualStep "edge://extensions/shortcuts"
-        Write-ManualStep "`tBitwarden"
-        Write-ManualStep "`t`tActivate the extension = Ctrl + Shift + B"
-        Write-ManualStep "`t`tAuto-fill the last used login for the current website = Alt + Page down"
-        Write-ManualStep "`t`tGenerate and copy a new random password to the clipboard = Ctrl + Shift + G"
-        Write-ManualStep "`tDark Reader"
-        Write-ManualStep "`t`tToggle current site = Alt + J"
-        Write-ManualStep "`t`tToggle extension = Alt + Shift + J"
-        Write-ManualStep "`tLink to Text Fragment > Copy Link to Selected Text = Alt + C"
-        if (Configured $forWork) {
-            Write-ManualStep "BitWarden > Settings > Vault timeout = 5 minutes"
+Write-ManualStep "Navigate to"
+Write-ManualStep "edge://settings/appearance"
+Write-ManualStep "`tCustomize toolbar > Hide title bar while in vertical tabs = On"
+Write-ManualStep "Navigate to"
+Write-ManualStep "edge://extensions/shortcuts"
+Write-ManualStep "`tBitwarden"
+Write-ManualStep "`t`tActivate the extension = Ctrl + Shift + B"
+Write-ManualStep "`t`tAuto-fill the last used login for the current website = Alt + Page down"
+Write-ManualStep "`t`tGenerate and copy a new random password to the clipboard = Ctrl + Shift + G"
+Write-ManualStep "`tDark Reader"
+Write-ManualStep "`t`tToggle current site = Alt + J"
+Write-ManualStep "`t`tToggle extension = Alt + Shift + J"
+Write-ManualStep "`tLink to Text Fragment > Copy Link to Selected Text = Alt + C"
+if (Configured $forWork) {
+    Write-ManualStep "BitWarden > Settings > Vault timeout = 5 minutes"
 
-            Write-ManualStep "System > Notifications > Set priority notifications > Apps > Add apps > calendar.google.com (via Microsoft Edge Dev)"
-            WaitWhileProcess SystemSettings
-            start ms-settings:notifications
-        }
-    }
+    Write-ManualStep "System > Notifications > Set priority notifications > Apps > Add apps > calendar.google.com (via Microsoft Edge Dev)"
+    WaitWhileProcess SystemSettings
+    start ms-settings:notifications
 }
 
-if (!(Configured $forKids)) {
-    InstallFromWingetBlock Twilio.Authy {
-        DeleteDesktopShortcut "Authy Desktop"
-    }
-}
+# InstallFromWingetBlock Twilio.Authy {
+#     DeleteDesktopShortcut "Authy Desktop"
+# }
 
 InstallFromWingetBlock voidtools.Everything {
     DeleteDesktopShortcut Everything
@@ -56,39 +49,37 @@ InstallFromWingetBlock voidtools.Everything {
     . $env:ProgramFiles\Everything\Everything.exe -startup
 }
 
-if (!(Configured $forKids)) {
-    InstallFromWingetBlock Microsoft.DotNet.SDK.6 {
-        Add-Content -Path $profile {
-            Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
-                param($wordToComplete, $commandAst, $cursorPosition)
-                dotnet complete --position $cursorPosition $commandAst | ForEach-Object {
-                    [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-                }
+InstallFromWingetBlock Microsoft.DotNet.SDK.6 {
+    Add-Content -Path $profile {
+        Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+            param($wordToComplete, $commandAst, $cursorPosition)
+            dotnet complete --position $cursorPosition $commandAst | ForEach-Object {
+                [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
             }
         }
     }
+}
 
-    Block "Add nuget.org source" {
-        dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
-    } {
-        dotnet nuget list source | sls nuget.org
+Block "Add nuget.org source" {
+    dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
+} {
+    dotnet nuget list source | sls nuget.org
+}
+
+InstallFromScoopBlock nvm {
+    nvm install latest
+    nvm use (nvm list | Out-String -NoNewline)
+}
+
+InstallFromWingetBlock Yarn.Yarn
+
+InstallFromWingetBlock GitHub.cli {
+    gh config set editor (git config core.editor)
+    Add-Content -Path $profile {
+        (gh completion -s powershell) -join "`n" | iex
     }
-
-    InstallFromScoopBlock nvm {
-        nvm install latest
-        nvm use (nvm list | Out-String -NoNewline)
-    }
-
-    InstallFromWingetBlock Yarn.Yarn
-
-    InstallFromWingetBlock GitHub.cli {
-        gh config set editor (git config core.editor)
-        Add-Content -Path $profile {
-            (gh completion -s powershell) -join "`n" | iex
-        }
-        if (!(Configured $forTest)) {
-            gh auth login -w
-        }
+    if (!(Configured $forTest)) {
+        gh auth login -w
     }
 }
 
@@ -101,38 +92,33 @@ InstallFromWingetBlock Microsoft.VisualStudioCode {
     code
 }
 
-if (!(Configured $forKids)) {
-    InstallFromWingetBlock Microsoft.VisualStudio.2022.Community `
-        "--passive --norestart --wait --includeRecommended --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb" `
-    {
-        # https://docs.microsoft.com/en-us/visualstudio/install/workload-and-component-ids
-        #   Microsoft.VisualStudio.Workload.ManagedDesktop    .NET desktop development
-        #   Microsoft.VisualStudio.Workload.NetWeb            ASP.NET and web development
-        # https://docs.microsoft.com/en-us/visualstudio/install/command-line-parameter-examples#using---wait
+InstallFromWingetBlock Microsoft.VisualStudio.2022.Community `
+    "--passive --norestart --wait --includeRecommended --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb" `
+{
+    # https://docs.microsoft.com/en-us/visualstudio/install/workload-and-component-ids
+    #   Microsoft.VisualStudio.Workload.ManagedDesktop    .NET desktop development
+    #   Microsoft.VisualStudio.Workload.NetWeb            ASP.NET and web development
+    # https://docs.microsoft.com/en-us/visualstudio/install/command-line-parameter-examples#using---wait
 
-        $vsInstallation = . "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -format json | ConvertFrom-Json
-        $vsVersion = ($vsInstallation.installationVersion).Substring(0, 2)
+    $vsInstallation = . "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -format json | ConvertFrom-Json
+    $vsVersion = ($vsInstallation.installationVersion).Substring(0, 2)
 
-        # Hide dynamic nodes in Solution Explorer
-        Set-RegistryValue "HKCU:\Software\Microsoft\VisualStudio\$vsVersion.0_$($vsInstallation.instanceId)" -Name UseSolutionNavigatorGraphProvider -Value 0
+    # Hide dynamic nodes in Solution Explorer
+    Set-RegistryValue "HKCU:\Software\Microsoft\VisualStudio\$vsVersion.0_$($vsInstallation.instanceId)" -Name UseSolutionNavigatorGraphProvider -Value 0
 
-        # Visual Studio > Help > Privacy > Privacy Settings... > Experience Improvement Program = No
-        Set-RegistryValue "HKLM:\SOFTWARE\WOW6432Node\Microsoft\VSCommon\$vsVersion.0\SQM" -Name OptIn -Value 0
-    } -NoUpdate
+    # Visual Studio > Help > Privacy > Privacy Settings... > Experience Improvement Program = No
+    Set-RegistryValue "HKLM:\SOFTWARE\WOW6432Node\Microsoft\VSCommon\$vsVersion.0\SQM" -Name OptIn -Value 0
+} -NoUpdate
 
-    InstallVisualStudioExtensionBlock maksim-vorobiev PeasyMotion2022
-    InstallVisualStudioExtensionBlock OlleWestman SubwordNavigation
-    InstallVisualStudioExtensionBlock AlexanderGayko ShowInlineErrors
-    InstallVisualStudioExtensionBlock MadsKristensen ResetZoom
-}
+InstallVisualStudioExtensionBlock maksim-vorobiev PeasyMotion2022
+InstallVisualStudioExtensionBlock OlleWestman SubwordNavigation
+InstallVisualStudioExtensionBlock AlexanderGayko ShowInlineErrors
+InstallVisualStudioExtensionBlock MadsKristensen ResetZoom
 
 InstallFromWingetBlock Lexikos.AutoHotkey "/S /IsHostApp"
 
-if (!(Configured $forKids)) {
+if (Configured $forWork) {
     InstallFromWingetBlock SlackTechnologies.Slack {
-        if (!(Configured $forWork)) {
-            RemoveStartupRegistryKey com.squirrel.slack.slack
-        }
         DeleteDesktopShortcut Slack
         ConfigureNotifications com.squirrel.slack.slack
     }
@@ -241,58 +227,7 @@ InstallFromScoopBlock sysinternals {
     Set-RegistryValue "HKCU:\Software\Sysinternals" EulaAccepted 1
 }
 
-InstallFromGitHubBlock benallred SnapX
-Block "Start SnapX" {
-    . $git\SnapX\SnapX.ahk
-} {
-    (Get-Process AutoHotkey).CommandLine | sls SnapX.ahk
-}
-
-if (!(Configured $forKids)) {
-    InstallFromGitHubBlock benallred Bahk
-    Block "Start Bahk" {
-        . $git\Bahk\Ben.ahk
-    } {
-        (Get-Process AutoHotkey).CommandLine | sls Ben.ahk
-    }
-
-    if (Configured $forHome) {
-        Block "Install CrashPlan" {
-            Download-File https://download.code42.com/installs/agent/latest-smb-win64.msi $env:tmp\CrashPlan.msi
-            Start-Process $env:tmp\CrashPlan.msi /passive, /norestart -Wait
-            Write-ManualStep "Sign in"
-            Write-ManualStep "Replace Existing"
-            Write-ManualStep "Skip File Transfer"
-        } {
-            Test-ProgramInstalled Code42
-        }
-    }
-
-    InstallFromGitHubBlock benallred plex-playlist-liberator
-
-    InstallFromGitHubBlock benallred YouTubeToPlex
-
-    InstallFromGitHubBlock benallred DilbertImageDownloader
-
-    InstallFromGitHubBlock benallred qmk_firmware {
-        git pull --unshallow
-        git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-        git submodule update --init --recursive
-        git remote add upstream https://github.com/zsa/qmk_firmware.git
-        git co ben
-    } -CloneDepth 1
-
-    InstallFromGitHubAssetBlock qmk qmk_distro_msys QMK_MSYS.exe {
-        Start-Process QMK_MSYS.exe "/silent" -Wait
-        C:\QMK_MSYS\shell_connector.cmd -c "qmk config user.hide_welcome=True"
-        C:\QMK_MSYS\shell_connector.cmd -c "qmk config user.qmk_home=$($git -replace "\\", "/")/qmk_firmware"
-        C:\QMK_MSYS\shell_connector.cmd -c "qmk setup"
-    } {
-        Test-ProgramInstalled "QMK MSYS"
-    }
-}
-
-if (!(Configured $forKids)) {
+if (Configured $forHome) {
     InstallFromWingetBlock Discord.Discord {
         DeleteDesktopShortcut Discord
         ConfigureNotifications com.squirrel.Discord.Discord
@@ -305,165 +240,69 @@ if (!(Configured $forKids)) {
     } -NoUpdate
 }
 
-InstallFromWingetBlock 7zip.7zip {
-    Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name ShowDots -Value 1
-    Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name ShowRealFileIcons -Value 1
-    Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name FullRow -Value 1
-    Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name ShowSystemMenu -Value 1
-    . "$env:ProgramFiles\7-Zip\7zFM.exe"
-    Write-ManualStep "Tools >"
-    Write-ManualStep "`tOptions >"
-    Write-ManualStep "`t`t7-Zip >"
-    Write-ManualStep "`t`t`tContext menu items > [only the following]"
-    Write-ManualStep "`t`t`t`tOpen archive"
-    Write-ManualStep "`t`t`t`tExtract Here"
-    Write-ManualStep "`t`t`t`tExtract to <Folder>"
-    Write-ManualStep "`t`t`t`tAdd to <Archive>.zip"
-    Write-ManualStep "`t`t`t`tCRC SHA >"
-    WaitWhileProcess 7zFM
+if (Configured $forWork) {
+    InstallFromWingetBlock 7zip.7zip {
+        Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name ShowDots -Value 1
+        Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name ShowRealFileIcons -Value 1
+        Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name FullRow -Value 1
+        Set-RegistryValue "HKCU:\SOFTWARE\7-Zip\FM" -Name ShowSystemMenu -Value 1
+        . "$env:ProgramFiles\7-Zip\7zFM.exe"
+        Write-ManualStep "Tools >"
+        Write-ManualStep "`tOptions >"
+        Write-ManualStep "`t`t7-Zip >"
+        Write-ManualStep "`t`t`tContext menu items > [only the following]"
+        Write-ManualStep "`t`t`t`tOpen archive"
+        Write-ManualStep "`t`t`t`tExtract Here"
+        Write-ManualStep "`t`t`t`tExtract to <Folder>"
+        Write-ManualStep "`t`t`t`tAdd to <Archive>.zip"
+        Write-ManualStep "`t`t`t`tCRC SHA >"
+        WaitWhileProcess 7zFM
+    }
+}
+
+Block "Install Wally" {
+    Download-File https://configure.ergodox-ez.com/wally/win $env:tmp\Wally.exe
+    . $env:tmp\Wally.exe /SILENT /NORESTART /LOG=$env:tmp\WallyInstallLog.txt
+} {
+    Test-ProgramInstalled Wally
+}
+
+InstallFromScoopBlock speedtest-cli {
+    speedtest --accept-license --version
+}
+
+Block "Install RegFromApp" {
+    Download-File https://www.nirsoft.net/utils/regfromapp-x64.zip $env:tmp\regfromapp-x64.zip
+    Expand-Archive $env:tmp\regfromapp-x64.zip C:\QLocal\Programs\RegFromApp64
+    New-Shortcut C:\QLocal\Programs\RegFromApp64\RegFromApp.exe "$env:AppData\Microsoft\Windows\Start Menu\Programs\Q\RegFromApp64.lnk"
+    Download-File https://www.nirsoft.net/utils/regfromapp.zip $env:tmp\regfromapp.zip
+    Expand-Archive $env:tmp\regfromapp.zip C:\QLocal\Programs\RegFromApp
+    New-Shortcut C:\QLocal\Programs\RegFromApp\RegFromApp.exe "$env:AppData\Microsoft\Windows\Start Menu\Programs\Q\RegFromApp.lnk"
+} {
+    Test-Path C:\QLocal\Programs\RegFromApp64
 }
 
 if (Configured $forHome) {
-    FirstRunBlock "Wait for Plex backup restore" {
-        WaitForPath "HKCU:\SOFTWARE\PlexPlaylistLiberator"
-    }
-    InstallFromWingetBlock Plex.PlexMediaServer
-}
-
-InstallFromWingetBlock Plex.Plexamp {
-    DeleteDesktopShortcut Plexamp
-    Copy-Item2 $PSScriptRoot\..\programs\Plexamp.MainWindow.json $env:AppData\Plexamp\MainWindow.json
-    Write-ManualStep "Sign in to Plexamp"
-    . $env:LocalAppData\Programs\Plexamp\Plexamp.exe
-} -NoUpdate
-
-InstallFromWingetBlock 9NBLGGH1ZBKW # Dynamic Theme
-
-if (!(Configured $forKids)) {
-    InstallFromWingetBlock 9NBLGGH5R558 # Microsoft To Do
-
-    InstallFromWingetBlock 9WZDNCRFJB8P # Surface
-
-    InstallFromWingetBlock Doist.Todoist {
-        DeleteDesktopShortcut Todoist
-    }
-
-    Block "Install Wally" {
-        Download-File https://configure.ergodox-ez.com/wally/win $env:tmp\Wally.exe
-        . $env:tmp\Wally.exe /SILENT /NORESTART /LOG=$env:tmp\WallyInstallLog.txt
+    Block "Install OverDrive" {
+        Download-File https://static.od-cdn.com/ODMediaConsoleSetup.msi $env:tmp\ODMediaConsoleSetup.msi
+        Start-Process $env:tmp\ODMediaConsoleSetup.msi /passive, /norestart -Wait
+        DeleteDesktopShortcut "OverDrive for Windows"
+        Set-RegistryValue "HKCU:\Software\OverDrive, Inc.\OverDrive Media Console\Settings" "DownloadFolder-MP3 Audiobook" "C:\QLocal\Audio Books"
     } {
-        Test-ProgramInstalled Wally
-    }
-
-    InstallFromWingetBlock Logitech.LGS
-
-    InstallFromWingetBlock Logitech.Options
-
-    InstallFromGitHubAssetBlock imbushuo mac-precision-touchpad Drivers-amd64-ReleaseMSSigned.zip {
-        pnputil /add-driver .\drivers\amd64\AmtPtpDevice.inf /install
-    } {
-        pnputil /enum-drivers | sls AmtPtpDevice.inf
-    }
-
-    InstallFromWingetBlock SergeySerkov.TagScanner {
-        DeleteDesktopShortcut TagScanner
-        New-Item $env:AppData\TagScanner -ItemType Directory
-        Copy-Item $PSScriptRoot\..\programs\Tagscan.ini $env:AppData\TagScanner
-    }
-
-    InstallFromScoopBlock youtube-dl
-
-    InstallFromScoopBlock scrcpy
-
-    InstallFromScoopBlock speedtest-cli {
-        speedtest --accept-license --version
-    }
-
-    InstallFromWingetBlock Rufus.Rufus {
-        New-Shortcut (Get-ChildItem "$env:LocalAppData\Microsoft\WinGet\Packages\Rufus.Rufus_Microsoft.Winget.Source_8wekyb3d8bbwe" rufus*.exe) "$env:AppData\Microsoft\Windows\Start Menu\Programs\Ben\Rufus.lnk"
-    }
-
-    Block "Install RegFromApp" {
-        Download-File https://www.nirsoft.net/utils/regfromapp-x64.zip $env:tmp\regfromapp-x64.zip
-        Expand-Archive $env:tmp\regfromapp-x64.zip C:\BenLocal\Programs\RegFromApp64
-        New-Shortcut C:\BenLocal\Programs\RegFromApp64\RegFromApp.exe "$env:AppData\Microsoft\Windows\Start Menu\Programs\Ben\RegFromApp64.lnk"
-        Download-File https://www.nirsoft.net/utils/regfromapp.zip $env:tmp\regfromapp.zip
-        Expand-Archive $env:tmp\regfromapp.zip C:\BenLocal\Programs\RegFromApp
-        New-Shortcut C:\BenLocal\Programs\RegFromApp\RegFromApp.exe "$env:AppData\Microsoft\Windows\Start Menu\Programs\Ben\RegFromApp.lnk"
-    } {
-        Test-Path C:\BenLocal\Programs\RegFromApp64
-    }
-
-    if (Configured $forHome) {
-        Block "Install OverDrive" {
-            Download-File https://static.od-cdn.com/ODMediaConsoleSetup.msi $env:tmp\ODMediaConsoleSetup.msi
-            Start-Process $env:tmp\ODMediaConsoleSetup.msi /passive, /norestart -Wait
-            DeleteDesktopShortcut "OverDrive for Windows"
-            Set-RegistryValue "HKCU:\Software\OverDrive, Inc.\OverDrive Media Console\Settings" "DownloadFolder-MP3 Audiobook" "C:\BenLocal\Audio Books"
-        } {
-            Test-ProgramInstalled "OverDrive for Windows"
-        }
-    }
-
-    InstallFromWingetBlock NickeManarin.ScreenToGif {
-        DeleteDesktopShortcut ScreenToGif
-        Copy-Item2 $PSScriptRoot\..\programs\ScreenToGif.xaml $env:AppData\ScreenToGif\Settings.xaml
-    }
-
-    Block "Update VeraCrypt" {
-        $currentDir = "$script:veraCryptRootDir\Current"
-        $newVersionDir = "$script:veraCryptRootDir\$script:veraCryptNewVersion"
-        $downloadPath = "$script:veraCryptRootDir\VeraCrypt Portable $script:veraCryptNewVersion.exe"
-
-        rm $script:veraCryptRootDir\$script:veraCryptOldVersion
-        Rename-Item $currentDir $script:veraCryptOldVersion
-
-        Download-File https://launchpad.net/veracrypt/trunk/$script:veraCryptNewVersion/+download/VeraCrypt%20Portable%20$script:veraCryptNewVersion.exe $downloadPath
-        mkdir $newVersionDir | Out-Null
-        $currentDir | Set-Clipboard
-        Write-ManualStep "Extract to `"$currentDir`" (copied to clipboard)"
-        start $script:veraCryptRootDir
-        . $downloadPath
-        WaitWhileProcess *VeraCrypt*
-    } {
-        $script:veraCryptRootDir = "$OneDrive\Ben\Programs\VeraCrypt"
-        $script:veraCryptOldVersion = Get-ChildItem $script:veraCryptRootDir -Directory -Exclude Current | sort Name | select -Last 1 | Split-Path -Leaf
-        $script:veraCryptNewVersion = (winget show IDRIX.VeraCrypt | sls "(?<=Version: ).*").Matches.Value
-        Write-Host "Old VeraCrypt version: $script:veraCryptOldVersion"
-        Write-Host "New VeraCrypt version: $script:veraCryptNewVersion"
-        $script:veraCryptNewVersion -eq $script:veraCryptOldVersion
-    }
-
-    InstallFromWingetBlock Microsoft.PowerToys {
-        Copy-Item2 $PSScriptRoot\..\programs\PowerToys.settings.json $env:LocalAppData\Microsoft\PowerToys\settings.json
-        Copy-Item2 $PSScriptRoot\..\programs\PowerToys.VideoConference.settings.json "$env:LocalAppData\Microsoft\PowerToys\Video Conference\settings.json"
+        Test-ProgramInstalled "OverDrive for Windows"
     }
 }
 
-InstallFromScoopBlock paint.net
-
-InstallFromWingetBlock VideoLAN.VLC {
-    DeleteDesktopShortcut "VLC media player"
+InstallFromWingetBlock NickeManarin.ScreenToGif {
+    DeleteDesktopShortcut ScreenToGif
+    Copy-Item2 $PSScriptRoot\..\programs\ScreenToGif.xaml $env:AppData\ScreenToGif\Settings.xaml
 }
 
-InstallFromWingetBlock JAMSoftware.TreeSize.Free
-
-if (Configured $forKids) {
-    InstallFromWingetBlock MITMediaLab.Scratch.3 {
-        DeleteDesktopShortcut "Scratch 3"
-    }
+InstallFromWingetBlock Microsoft.PowerToys {
+    Copy-Item2 $PSScriptRoot\..\programs\PowerToys.settings.json $env:LocalAppData\Microsoft\PowerToys\settings.json
+    Copy-Item2 $PSScriptRoot\..\programs\PowerToys.VideoConference.settings.json "$env:LocalAppData\Microsoft\PowerToys\Video Conference\settings.json"
 }
 
-if (!(Configured $forWork)) {
-    Block "Install Cricut Design Space" {
-        $fileName = (iwr https://s3-us-west-2.amazonaws.com/staticcontent.cricut.com/a/software/win32-native/latest.json | ConvertFrom-Json).rolloutInstallFile
-        $downloadUrl = (iwr "https://apis.cricut.com/desktopdownload/InstallerFile?shard=a&operatingSystem=win32native&fileName=$fileName" | ConvertFrom-Json).result
-        Download-File $downloadUrl $env:tmp\$fileName
-        . $env:tmp\$fileName
-        DeleteDesktopShortcut "Cricut Design Space"
-    } {
-        Test-ProgramInstalled "Cricut Design Space"
-    }
+if (Configured $forHome) {
+    & $PSScriptRoot\games.ps1
 }
-
-& $PSScriptRoot\games.ps1
