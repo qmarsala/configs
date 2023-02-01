@@ -3,19 +3,6 @@ Block "Prevent `"Allow my organization to manage my device`"" {
 }
 
 if ((Configured $forWork) -or (Configured $forTest)) {
-    InstallFromWingetBlock Mozilla.Firefox {
-        DeleteDesktopShortcut Firefox
-    }
-
-    Block "Install Tor Browser" {
-        winget install --id TorProject.TorBrowser
-        Move-Item "$env:UserProfile\Desktop\Tor Browser" C:\QLocal\Programs
-    } {
-        Test-Path "C:\QLocal\Programs\Tor Browser"
-    }
-
-    InstallFromWingetBlock 9WZDNCRFJBLK # Arc Touch Bluetooth Mouse
-
     Block "Install Zoom" {
         winget install Zoom.Zoom --scope machine --override `
         ('zNoDesktopShortCut="true"' + `
