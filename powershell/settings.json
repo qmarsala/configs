@@ -6,6 +6,8 @@
   "profiles": {
     "defaults": {
       "colorScheme": "VS Code DarkPlus",
+      "backgroundImage": "C:/QLocal/git/configs/powershell/bg/bluepurple.jpg",
+      "backgroundImageOpacity": 0.75,
       "font": {
         "face": "CaskaydiaCove NF",
         "size": 10
@@ -69,14 +71,71 @@
   // defaultsFile: ctrl+alt+,
   // prettier-ignore
   "actions": [
-    { "command": { "action": "globalSummon", "name": "_quake", "dropdownDuration": 200, "toggleVisibility": true, "monitor": "toMouse", "desktop": "toCurrent" }, "keys": "win+`" },
-    { "command": { "action": "copy", "singleLine": false }, "keys": "ctrl+c" },
-    { "command": "find", "keys": [ "ctrl+f" ] },
-    { "command": "newTab", "keys": [ "ctrl+t" ] },
-    { "command": { "action": "moveTab", "direction": "forward" }, "keys": [ "ctrl+shift+pgdn" ] },
-    { "command": { "action": "moveTab", "direction": "backward" }, "keys": [ "ctrl+shift+pgup" ] },
-    { "command": { "action": "nextTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgdn" },
-    { "command": { "action": "prevTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgup" },
-    { "command": "closePane", "keys": "ctrl+w" }
+    {
+      "command": {
+        "action": "globalSummon",
+        "name": "_quake",
+        "dropdownDuration": 200,
+        "toggleVisibility": true,
+        "monitor": "toMouse",
+        "desktop": "toCurrent"
+      },
+      "keys": "win+`"
+    },
+    {
+      "command": {
+        "action": "copy",
+        "singleLine": false
+      },
+      "keys": "ctrl+c"
+    },
+    {
+      "command": "find",
+      "keys": [
+        "ctrl+f"
+      ]
+    },
+    {
+      "command": "newTab",
+      "keys": [
+        "ctrl+t"
+      ]
+    },
+    {
+      "command": {
+        "action": "moveTab",
+        "direction": "forward"
+      },
+      "keys": [
+        "ctrl+shift+pgdn"
+      ]
+    },
+    {
+      "command": {
+        "action": "moveTab",
+        "direction": "backward"
+      },
+      "keys": [
+        "ctrl+shift+pgup"
+      ]
+    },
+    {
+      "command": {
+        "action": "nextTab",
+        "tabSwitcherMode": "inOrder"
+      },
+      "keys": "ctrl+pgdn"
+    },
+    {
+      "command": {
+        "action": "prevTab",
+        "tabSwitcherMode": "inOrder"
+      },
+      "keys": "ctrl+pgup"
+    },
+    {
+      "command": "closePane",
+      "keys": "ctrl+w"
+    }
   ]
 }
