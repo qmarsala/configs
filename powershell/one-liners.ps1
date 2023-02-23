@@ -11,6 +11,12 @@ function flash() {
 }
 
 ##################################################
+# zoom!
+function gomob() {
+    start "zoommtg://${env:mob_zoomuri}"
+}
+
+##################################################
 # AWS
 
 function Update-AwsAccessKey() {
