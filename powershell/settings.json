@@ -6,7 +6,7 @@
   "profiles": {
     "defaults": {
       "colorScheme": "VS Code DarkPlus",
-      "backgroundImage": "C:/QLocal/git/configs/powershell/bg/bluepurple.jpg",
+      "backgroundImage": "C:/QLocal/git/configs/powershell/bg/nature1.png",
       "backgroundImageOpacity": 0.75,
       "font": {
         "face": "CaskaydiaCove NF",
