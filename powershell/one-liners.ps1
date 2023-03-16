@@ -10,10 +10,21 @@ function flash() {
     qmk-ps flash -kb moonlander -km q
 }
 
-##################################################
-# zoom!
-function gomob() {
-    start "zoommtg://${env:mob_zoomuri}"
+function zoom([string]$target = "mob") {
+    $knownTargets = @{};
+    $knownTargets.Add("mob", "${env:mob_zoomuri}");
+    $zoomUri = "zoommtg://zoom.us/join?confno="
+    if ($knownTargets.Contains($target)) {
+        $parts = $knownTargets[$target] -Split ":"
+    }else {
+        $parts = $target -Split ":"
+    }
+
+    $zoomUri = $zoomUri + $parts[0]
+    if ($parts.Length -gt 1) {
+        $zoomUri = $zoomUri + "&pwd=" + $parts[1]
+    }
+    start $zoomUri
 }
 
 ##################################################
