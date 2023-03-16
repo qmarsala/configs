@@ -7,7 +7,8 @@
     "defaults": {
       "colorScheme": "VS Code DarkPlus",
       "backgroundImage": "C:/QLocal/git/configs/powershell/bg/nature1.png",
-      "backgroundImageOpacity": 0.75,
+      "backgroundImageOpacity": 0.45,
+      "background": "#000",
       "font": {
         "face": "CaskaydiaCove NF",
         "size": 10
