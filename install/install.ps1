@@ -92,7 +92,7 @@ InstallFromWingetBlock Microsoft.VisualStudioCode {
     code
 }
 
-InstallFromWingetBlock Microsoft.VisualStudio.2022.Community `
+InstallFromWingetBlock Microsoft.VisualStudio.2022.Professional `
     "--passive --norestart --wait --includeRecommended --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb" `
 {
     # https://docs.microsoft.com/en-us/visualstudio/install/workload-and-component-ids
