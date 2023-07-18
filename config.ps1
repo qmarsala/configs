@@ -79,7 +79,7 @@ if (Configured $forHome) {
     & $PSScriptRoot\install\games.ps1
 }
 & $PSScriptRoot\work\config.ps1
-& $PSScriptRoot\scheduled-tasks\config.ps1
+# & $PSScriptRoot\scheduled-tasks\config.ps1
 
 Block "Blocks of interest this run" {
     $global:blocksOfInterest | % { Write-Output "`t$_" }
