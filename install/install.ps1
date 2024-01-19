@@ -289,6 +289,8 @@ if (Configured $forHome) {
     } {
         Test-ProgramInstalled "OverDrive for Windows"
     }
+
+    InstallFromWingetBlock Google.GoogleDrive
 }
 
 InstallFromWingetBlock NickeManarin.ScreenToGif {
