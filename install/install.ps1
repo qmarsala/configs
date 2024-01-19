@@ -49,7 +49,7 @@ InstallFromWingetBlock voidtools.Everything {
     . $env:ProgramFiles\Everything\Everything.exe -startup
 }
 
-InstallFromWingetBlock Microsoft.DotNet.SDK.6 {
+InstallFromWingetBlock Microsoft.DotNet.SDK.8 {
     Add-Content -Path $profile {
         Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
             param($wordToComplete, $commandAst, $cursorPosition)
