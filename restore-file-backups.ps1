@@ -41,15 +41,3 @@ function RestoreMonthlyBackup([string]$FromBase, [string]$To) {
     $from = "$FromBase\$monthNumber $monthAbbr"
     RestoreBackup $from $To (Split-Path $FromBase -Leaf)
 }
-
-RestoreBackup "E:\Backup - Monthly\AppData\Local\Plex Media Server" "$env:LOCALAPPDATA\Plex Media Server"
-reg import "E:\Backup - Monthly\reg-Plex Media Server.reg"
-reg import "E:\Backup - Monthly\reg-PlexPlaylistLiberator.reg"
-
-RestoreDailyBackup "E:\Backup - Daily\OneDrive_Q" "$env:UserProfile\OneDrive\Q"
-RestoreDailyBackup "E:\Backup - Daily\OneDrive_Music" "$env:UserProfile\OneDrive\Music"
-RestoreMonthlyBackup "E:\Backup - Monthly\OneDrive_QEx" "$env:UserProfile\OneDrive\QEx"
-RestoreBackup "E:\Backup - Monthly\OneDrive_QEx2" "$env:UserProfile\OneDrive\QEx2"
-RestoreDailyBackup "E:\Backup - Daily\Q" "C:\Q"
-RestoreBackup "E:\Backup - Monthly\QEx" "C:\QEx"
-RestoreBackup "E:\Backup - Monthly\QEx2" "C:\QEx2"
