@@ -28,6 +28,14 @@
           "trailing_diamond": "\ue0b4 "
         },
         {
+          "type": "go",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#ffffff",
+          "background": "#7FD5EA",
+          "template": " {{ .Full }} "
+        },
+        {
           "type": "git",
           "background": "p:bubble-background",
           "foreground": "p:primary",
@@ -87,7 +95,7 @@
             "style": "folder"
           },
           "style": "powerline",
-          "template": " \uf74a {{ path .Path .Location }}"
+          "template": "{{ path .Path .Location }}"
         },
         {
           "type": "exit",
