@@ -29,10 +29,11 @@
         },
         {
           "type": "go",
-          "style": "powerline",
-          "powerline_symbol": "",
-          "foreground": "#ffffff",
-          "background": "#7FD5EA",
+          "style": "diamond",
+          "background": "p:bubble-background",
+          "foreground": "p:primary",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4 ",
           "template": " {{ .Full }} "
         },
         {
