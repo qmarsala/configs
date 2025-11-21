@@ -18,6 +18,15 @@
       "type": "prompt",
       "alignment": "right",
       "segments": [
+        // {
+        //   "type": "aws",
+        //   "style": "diamond",
+        //   "background": "p:bubble-background",
+        //   "foreground": "p:primary",
+        //   "leading_diamond": "\ue0b6",
+        //   "trailing_diamond": "\ue0b4 ",
+        //   "template": "{{url .Profile \"https://us-west-2.console.aws.amazon.com/console/home?nc2=h_ct&region=us-west-2&src=header-signin\" }}{{if .Region}}@{{.Region}}{{end}}"
+        // },
         {
           "type": "terraform",
           "background": "p:",
@@ -34,7 +43,7 @@
           "foreground": "p:primary",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4 ",
-          "template": " {{ .Full }} "
+          "template": " {{ url .Full .URL }} "
         },
         {
           "type": "git",
@@ -133,7 +142,7 @@
         "display_default": true
       },
       "style": "diamond",
-      "template": " \ue7ad {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }} ",
+      "template": "{{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }} ",
       "tips": [
         "aws"
       ],
